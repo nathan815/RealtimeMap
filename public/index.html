@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>Geofire Realtime Map</title>
+
+ <link href="style.css" rel="stylesheet" />
+
+</head>
+<body>
+  <button id="boxButton" onclick="showBox();">Show Log</button>
+  <div id="box">
+    <h2>GeoFire Realtime Map</h2>
+    <div id="toolbar">
+      <span id="changeName"><a href="javascript:changeName();">change name</a> /</span>
+      <a href="javascript:hideBox();">hide log</a>
+    </div>
+    <div id="log"></div>
+    <div id="loading">
+      <img src="loading.gif" />
+    </div>
+    <div id="footer">
+    Powered by Firebase | <a href="">View on GitHub</a>
+    </div>
+  </div>
+  <div id="map"></div>
+
+  <!-- JS -->
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script src="https://cdn.firebase.com/libs/geofire/4.1.0/geofire.min.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDlUOTOqDfQj6qjmiv1jN_pqfbwyffD3G4"></script>
+  <!-- Overlapping Marker Spiderfier for Google Maps API v3 -->
+  <script src="oms.min.js"></script>
+
+  <script src="firebase-config.js"></script>
+  <script src="utils.js"></script>
+  <script src="map.js"></script>
+  <script src="core.js"></script>
+
+</body>
+</html>
