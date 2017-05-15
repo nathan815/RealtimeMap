@@ -1,5 +1,5 @@
 const COOKIE_DAYS = 7;
-const RADIUS = 500; // km
+const RADIUS = 700; // km
 const MAP_ZOOM = 6;
 
 // User variables
