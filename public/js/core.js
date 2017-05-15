@@ -34,7 +34,7 @@ function init() {
     log('You must enter a name. <a href="javascript:init()">Try again</a>');
     return;
   }
-  log('Welcome <span id="name">'+htmlentities(name)+'</span>!');
+  log('Welcome '+htmlentities(name)+'!');
 
   // Check if user id cookie exists
   // If it does, we'll use that id for firebase reference
