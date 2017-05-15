@@ -42,7 +42,9 @@ function drawRadius(marker) {
   });
   circle.bindTo('center', marker, 'position');
   google.maps.event.addListener(circle, 'radius_changed', function() {
-    geoQueryStart(userLocation, circle.getRadius()/METERS_IN_KM);
+    geoQueryUpdate({
+      radius: circle.getRadius()/METERS_IN_KM
+    });
   });
 }
 
@@ -77,8 +79,8 @@ function updateMarker(data) {
 
 function removeMarkerFromMap(key) {
   oms.removeMarker(mapMarkers[key]);
-  mapMarkers.splice(key, 1);
-  mapInfoWindows.splice(key, 1);
+  delete mapMarkers[key];
+  delete mapInfoWindows[key];
 }
 
 function doesMarkerExist(key) {

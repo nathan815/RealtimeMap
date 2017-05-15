@@ -7,10 +7,10 @@ const NAME_MAX_CHAR = 25; // change in database rules also
 // User variables
 var userId;
 var userName;
+var userLocation;
 
 // Firebase variables
 var userRef;
-var userLocation;
 var geoFire;
 var geoFireRef;
 var geoQuery;
@@ -139,7 +139,6 @@ function saveLocation(userId, coords) {
 }
 
 function geoQueryStart(location, radius) {
-  geoQueryCancel();
   log(sprintf('Starting GeoQuery (realtime): Users within %.2f km radius', radius));
   geoQuery = geoFire.query({
    center: location,
@@ -150,10 +149,15 @@ function geoQueryStart(location, radius) {
   geoQuery.on("key_exited", geoOnKeyExited);
 }
 
+function geoQueryUpdate(critera) {
+  log(sprintf('Updating GeoQuery with radius %.2f km', critera.radius));
+  geoQuery.updateCriteria(critera);
+}
+
 function geoQueryCancel() {
   if(!geoQuery) 
     return;
-  log('Cancelling current GeoQuery');
+  log('Cancelling GeoQuery');
   geoQuery.cancel();
 }
 
@@ -187,7 +191,7 @@ function geoOnKeyEnteredOrMoved(key, loc) {
 function geoOnKeyExited(key, location) {
   firebase.database().ref('users').child(key).once('value').then(function(snapshot) {
     var val = snapshot.val();
-    log(sprintf('User %s has left the radius.', htmlentities(val.name)));
+    log(sprintf('User %s is no longer within your radius.', htmlentities(val.name)));
     removeMarkerFromMap(key);
   });
 }
