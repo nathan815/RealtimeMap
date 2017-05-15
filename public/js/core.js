@@ -34,7 +34,7 @@ function init() {
     log('You must enter a name. <a href="javascript:init()">Try again</a>');
     return;
   }
-  log('Welcome '+htmlentities(name)+'!');
+  log(sprintf('Welcome %s!', htmlentities(name)));
 
   // Check if user id cookie exists
   // If it does, we'll use that id for firebase reference
@@ -61,7 +61,7 @@ function init() {
   geoFire = new GeoFire(geoFireRef);
 
   getLocation().then(function(coords) {
-    log('Your coordinates are: '+coords.latitude+', '+coords.longitude);
+    log(sprintf('Your coordinates are: %f, %f', coords.latitude, coords.longitude));
     userLocation = [coords.latitude, coords.longitude];
     initMap(coords);
     saveLocation(userId, coords);
@@ -132,7 +132,7 @@ function saveLocation(userId, coords) {
 }
 
 function geoQueryStart(location) {
-  log('Starting GeoQuery (realtime): Users within '+RADIUS+' km radius')
+  log(sprintf('Starting GeoQuery (realtime): Users within %i km radius', RADIUS));
   var geoQuery = geoFire.query({
    center: location,
    radius: RADIUS
@@ -158,11 +158,11 @@ function geoOnKeyEnteredOrMoved(key, loc) {
     };
 
     if(doesMarkerExist(key)) {
-      log('User ' + htmlentities(val.name) + ' location updated - distance: ' + distance + ' km');
+      log(sprintf('User %s location updated - distance: %.4f km', htmlentities(val.name), distance));
       updateMarker(data);
     }
     else {
-      log('User ' + htmlentities(val.name) + ' is within the radius - distance: ' + distance + ' km');
+      log(sprintf('User %s is within your radius - distance: %.4f km', htmlentities(val.name), distance));
       addMarkerToMap(data);
     }
 
@@ -172,7 +172,7 @@ function geoOnKeyEnteredOrMoved(key, loc) {
 function geoOnKeyExited(key, location) {
   firebase.database().ref('users').child(key).once('value').then(function(snapshot) {
     var val = snapshot.val();
-    log('User ' + htmlentities(val.name) + ' has left the radius.');
+    log(sprintf('User %s has left the radius.', htmlentities(val.name)));
     removeMarkerFromMap(key);
   });
 }
