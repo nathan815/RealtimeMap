@@ -21,6 +21,8 @@ function getRoundedDistance(loc1, loc2) {
  */
 function log(msg) {
   document.getElementById('log').innerHTML = document.getElementById('log').innerHTML + msg + '<br>';
+  if(document.getElementById('autoscrollLog').checked)
+    scrollToBottom('log');
 }
 
 ////////////////////////////////
