@@ -1,6 +1,7 @@
 const COOKIE_DAYS = 7;
 const RADIUS = 600; // km
 const MAP_ZOOM = 6;
+const NAME_MAX_CHAR = 25; // change in database rules also
 
 // User variables
 var userId;
@@ -78,10 +79,15 @@ function init() {
 function getOrAskForName(changeName) {
   changeName = changeName || false;
   var name = readCookie('_userName');
-  if(!name || changeName) {
-    name = prompt('Enter your name: ');
+  if(!name || changeName || name.length > NAME_MAX_CHAR) {
+    var msg = changeName ? 'Enter a new name. Page will be reloaded.' : 'Enter your name: ';
+    name = prompt(msg);
     if(!name) 
       return false;
+    else if(name.length > NAME_MAX_CHAR) {
+      alert(sprintf('Name cannot be greater than %i chars', NAME_MAX_CHAR));
+      return false;
+    }
     createCookie('_userName', name, COOKIE_DAYS);
   }
   userName = name;
@@ -92,9 +98,8 @@ function getOrAskForName(changeName) {
 function changeName() {
   // if user changed name update it in their node
   // and reload the page
-  if(!confirm('Really change your name? The page will be reloaded afterwards.'))
-    return;
-  if(name = getOrAskForName(true)) {
+  var name = getOrAskForName(true);
+  if(name) {
     log('Updating name...');
     userRef.update({
       name: name
