@@ -97,6 +97,13 @@ a:hover {
   display: none;
 }
 
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+
 
 /* SCROLLBARS */
 ::-webkit-scrollbar {

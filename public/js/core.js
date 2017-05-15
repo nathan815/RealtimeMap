@@ -1,5 +1,6 @@
 const COOKIE_DAYS = 7;
-const RADIUS = 600; // km
+const METERS_IN_KM = 1000;
+const DEFAULT_RADIUS = 600; // km
 const MAP_ZOOM = 6;
 const NAME_MAX_CHAR = 25; // change in database rules also
 
@@ -12,6 +13,7 @@ var userRef;
 var userLocation;
 var geoFire;
 var geoFireRef;
+var geoQuery;
 
 // Map variables
 var oms;
@@ -130,21 +132,29 @@ function saveLocation(userId, coords) {
   var location = [coords.latitude, coords.longitude];
   return geoFire.set(userId, location).then(function() {
     log('Added/updated your Geofire location in Firebase');
-    geoQueryStart(location);
+    geoQueryStart(location, DEFAULT_RADIUS);
   }).catch(function(err) {
     log('Could not add/update location: ' + err);
   });
 }
 
-function geoQueryStart(location) {
-  log(sprintf('Starting GeoQuery (realtime): Users within %i km radius', RADIUS));
-  var geoQuery = geoFire.query({
+function geoQueryStart(location, radius) {
+  geoQueryCancel();
+  log(sprintf('Starting GeoQuery (realtime): Users within %.2f km radius', radius));
+  geoQuery = geoFire.query({
    center: location,
-   radius: RADIUS
+   radius: radius
   });
   geoQuery.on("key_entered", geoOnKeyEnteredOrMoved);
   geoQuery.on("key_moved", geoOnKeyEnteredOrMoved);
   geoQuery.on("key_exited", geoOnKeyExited);
+}
+
+function geoQueryCancel() {
+  if(!geoQuery) 
+    return;
+  log('Cancelling current GeoQuery');
+  geoQuery.cancel();
 }
 
 function geoOnKeyEnteredOrMoved(key, loc) {
@@ -163,7 +173,7 @@ function geoOnKeyEnteredOrMoved(key, loc) {
     };
 
     if(doesMarkerExist(key)) {
-      log(sprintf('User %s location updated - distance: %.4f km', htmlentities(val.name), distance));
+      log(sprintf('User %s location changed - distance: %.4f km', htmlentities(val.name), distance));
       updateMarker(data);
     }
     else {

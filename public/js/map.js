@@ -33,13 +33,17 @@ function initMap(coords) {
 function drawRadius(marker) {
   var circle = new google.maps.Circle({
     map: map,
-    radius: RADIUS*1000, // meters
+    radius: (geoQuery ? geoQuery.radius() : DEFAULT_RADIUS) * METERS_IN_KM, // meters
     fillColor: '#0774E0',
     fillOpacity: 0.2,
     strokeColor: '#ffffff',
-    strokeWeight: 1.5
+    strokeWeight: 1.5,
+    editable: true
   });
   circle.bindTo('center', marker, 'position');
+  google.maps.event.addListener(circle, 'radius_changed', function() {
+    geoQueryStart(userLocation, circle.getRadius()/METERS_IN_KM);
+  });
 }
 
 function addMarkerToMap(data) {
@@ -81,9 +85,16 @@ function doesMarkerExist(key) {
   return key in mapMarkers;
 }
 
+function deleteAllMarkers() {
+  for(var key in mapMarkers) {
+    if(key == userId)
+      continue;
+    removeMarkerFromMap(key);
+  }
+}
 function closeInfoWindows() {
-  for(var index in mapInfoWindows) {
-    mapInfoWindows[index].close();
+  for(var key in mapInfoWindows) {
+    mapInfoWindows[key].close();
   }
 }
 
