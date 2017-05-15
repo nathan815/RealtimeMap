@@ -12,10 +12,13 @@ h2 {
 a {
   color: #fff;
 }
+a:hover {
+  text-decoration: none;
+}
 #box {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 45px;
+  left: 10px;
   width: 400px;
   background: #111;
   padding: 10px 10px 5px;
@@ -25,6 +28,7 @@ a {
   opacity: 0.8;
   color: #fff;
   box-shadow: 0 0 3px #111;
+  border-radius: 4px;
 }
 #box:hover {
   opacity: 0.95;
@@ -95,36 +99,36 @@ a {
 
 
 /* SCROLLBARS */
-  ::-webkit-scrollbar {
-    width: 3px;
-    height: 4px;
-  }
-  ::-webkit-scrollbar-button {
-    width: 0px;
-    height: 0px;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #e1e1e1;
-    border: 0px none #ffffff;
-    border-radius: 0px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #ffffff;
-  }
-  ::-webkit-scrollbar-thumb:active {
-    background: #000000;
-  }
-  ::-webkit-scrollbar-track {
-    background: #666666;
-    border: 0px none #ffffff;
-    border-radius: 0px;
-  }
-  ::-webkit-scrollbar-track:hover {
-    background: #666666;
-  }
-  ::-webkit-scrollbar-track:active {
-    background: #333333;
-  }
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
+::-webkit-scrollbar {
+  width: 3px;
+  height: 4px;
+}
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+::-webkit-scrollbar-thumb {
+  background: #e1e1e1;
+  border: 0px none #ffffff;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #000000;
+}
+::-webkit-scrollbar-track {
+  background: #666666;
+  border: 0px none #ffffff;
+  border-radius: 0px;
+}
+::-webkit-scrollbar-track:hover {
+  background: #666666;
+}
+::-webkit-scrollbar-track:active {
+  background: #333333;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
