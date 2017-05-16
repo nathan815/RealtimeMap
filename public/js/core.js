@@ -84,7 +84,7 @@ function getOrAskForName(changeName) {
   if(!name || changeName || name.length > NAME_MAX_CHAR) {
     var msg = changeName ? 'Enter a new name. Page will be reloaded.' : 'Enter your name: ';
     name = prompt(msg);
-    if(!name) 
+    if(!name)
       return false;
     else if(name.length > NAME_MAX_CHAR) {
       alert(sprintf('Name cannot be greater than %i chars', NAME_MAX_CHAR));
