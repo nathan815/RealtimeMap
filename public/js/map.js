@@ -21,7 +21,8 @@ function initMap(coords) {
   var marker = addMarkerToMap({
     key: userId,
     loc: loc, 
-    title: htmlentities(userName)+' <br><span>You</span>'
+    title: htmlentities(userName)+' <br><span>You</span>',
+    animation: google.maps.Animation.BOUNCE
   });
 
   drawRadius(marker);
@@ -50,7 +51,7 @@ function drawRadius(marker) {
 
 function addMarkerToMap(data) {
   var marker = new google.maps.Marker({
-    animation: google.maps.Animation.DROP,
+    animation: data.animation || google.maps.Animation.DROP,
     position: data.loc,
     label: (typeof data.label !== 'undefined' ? data.label : null)
   });
